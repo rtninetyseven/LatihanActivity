@@ -1,5 +1,6 @@
  package com.example.latihanactivity;
 
+import android.os.PersistableBundle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -15,7 +16,15 @@ import android.widget.TextView;
     private EditText edtLength;
     private Button btnCalculate;
     private TextView tvResult;
-    @Override
+    private static final String STATE_RESULT = "state_result";
+
+     @Override
+     public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
+         super.onSaveInstanceState(outState, outPersistentState);
+         outState.putString(STATE_RESULT, tvResult.getText().toString());
+     }
+
+     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -25,6 +34,10 @@ import android.widget.TextView;
         btnCalculate = findViewById(R.id.btn_calculate);
         tvResult = findViewById(R.id.tv_result);
         btnCalculate.setOnClickListener(this);
+        if (savedInstanceState != null){
+            String result = savedInstanceState.getString(STATE_RESULT);
+            tvResult.setText(result);
+        }
     }
 
     @Override
